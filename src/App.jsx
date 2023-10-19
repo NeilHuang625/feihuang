@@ -51,36 +51,33 @@ export default function App() {
         <NumResults movies={movies} />
       </NarBar>
       <Main>
-        {isLoading && <Loader />}
-        {!isLoading && !error && (
-          <Box
-            element={
-              <MovieList movies={movies} onSelectedMovie={handleSelectedId} />
-            }
-          />
-        )}
-        {error && <ErrorMessage message={error} />}
-        <Box
-          element={
-            selectedId ? (
-              <MovieDetail
+        <Box>
+          {isLoading && <Loader />}
+          {!isLoading && !error && (
+            <MovieList movies={movies} onSelectedMovie={handleSelectedId} />
+          )}
+          {error && <ErrorMessage message={error} />}
+        </Box>
+
+        <Box>
+          {selectedId ? (
+            <MovieDetail
+              watched={watched}
+              isRated={isRated}
+              addWatchedMovie={addWatchedMovie}
+              selectedId={selectedId}
+              handleCloseMovie={handleCloseMovie}
+            />
+          ) : (
+            <>
+              <WatchedSummary watched={watched} />
+              <WatchedMovieList
                 watched={watched}
-                isRated={isRated}
-                addWatchedMovie={addWatchedMovie}
-                selectedId={selectedId}
-                handleCloseMovie={handleCloseMovie}
+                deleteWatchedMovie={deleteWatchedMovie}
               />
-            ) : (
-              <>
-                <WatchedSummary watched={watched} />
-                <WatchedMovieList
-                  watched={watched}
-                  deleteWatchedMovie={deleteWatchedMovie}
-                />
-              </>
-            )
-          }
-        />
+            </>
+          )}
+        </Box>
       </Main>
     </>
   );
@@ -156,14 +153,14 @@ function Main({ children }) {
   return <main className="main">{children}</main>;
 }
 
-function Box({ element }) {
+function Box({ children }) {
   const [isOpen, setIsOpen] = useState(true);
   return (
     <div className="box">
       <button className="btn-toggle" onClick={() => setIsOpen((open) => !open)}>
         {isOpen ? "–" : "+"}
       </button>
-      {isOpen && element}
+      {isOpen && children}
     </div>
   );
 }
@@ -360,7 +357,7 @@ function WatchedSummary({ watched }) {
         </p>
         <p>
           <span>⏳</span>
-          <span>{avgRuntime} min</span>
+          <span>{avgRuntime.toFixed(1)} min</span>
         </p>
       </div>
     </div>
