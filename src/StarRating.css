@@ -1,0 +1,21 @@
+.textStyle {
+  line-height: 1;
+  margin: 0;
+}
+
+.starContainerStyle {
+  display: flex;
+}
+
+.containerStyle {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.star {
+  width: 48px;
+  height: 48px;
+  display: block;
+  cursor: pointer;
+}
